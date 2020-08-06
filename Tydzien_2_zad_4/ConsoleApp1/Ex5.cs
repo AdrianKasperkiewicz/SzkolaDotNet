@@ -91,16 +91,20 @@ namespace ConsoleApp1
         public void TelephoneNumberIsValid()
         {
             int number;
-            bool parse = Int32.TryParse(TelephoneNumber, out number);
-            if (parse)
-                Console.WriteLine($"Your telephone number : {number}");
+            if (Int32.TryParse(TelephoneNumber, out number))
+            {
+                if (TelephoneNumber.Length == 9)
+                    Console.WriteLine($"Your telephone number : {number}");
+                else
+                    Console.WriteLine($"{TelephoneNumber} is too short");
+            }
             else
                 Console.WriteLine($"Cannot parse {TelephoneNumber}");
 
             Console.WriteLine("Press enter to proceed");
             Console.ReadKey();
         }
-        public void EmailIdValid()
+        public void EmailValidAndWrite()
         {
             var regex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
 
@@ -135,7 +139,7 @@ namespace ConsoleApp1
                 Console.WriteLine($"Your weight : {number}");
             else
                 Console.WriteLine($"Cannot parse {Weight}");
-            
+
             Console.WriteLine("Press enter to proceed");
             Console.ReadKey();
         }
@@ -143,11 +147,11 @@ namespace ConsoleApp1
         {
             int number;
             bool parse = Int32.TryParse(ShoeSize, out number);
-                if (number <= 60 & number >= 5)
-                    Console.WriteLine($"All OK. Your Shoe size is : {number}");
-                else
-                    Console.WriteLine("Wrong shoe size");
-           
+            if (number <= 60 & number >= 5)
+                Console.WriteLine($"All OK. Your Shoe size is : {number}");
+            else
+                Console.WriteLine("Wrong shoe size");
+
             Console.WriteLine("Press enter to proceed");
             Console.ReadKey();
         }
