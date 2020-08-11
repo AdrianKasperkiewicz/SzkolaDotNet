@@ -6,23 +6,23 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Ex1 ex1 = new Ex1();
-            ex1.EqualityCheck();
+            //Ex1 ex1 = new Ex1();
+            //ex1.EqualityCheck();
 
-            Ex2 ex2 = new Ex2();
-            ex2.Even();
+            //Ex2 ex2 = new Ex2();
+            //ex2.Even();
 
-            Ex3 ex3 = new Ex3();
-            ex3.PositiveOrNegative();
+            //Ex3 ex3 = new Ex3();
+            //ex3.PositiveOrNegative();
 
-            Ex4 ex4 = new Ex4();
-            ex4.LeapYear();
+            //Ex4 ex4 = new Ex4();
+            //ex4.LeapYear();
 
-            Ex5 ex5 = new Ex5();
-            ex5.Age();
+            //Ex5 ex5 = new Ex5();
+            //ex5.Age();
 
-            Ex6 ex6 = new Ex6();
-            ex6.GrowthCategories();
+            //Ex6 ex6 = new Ex6();
+            //ex6.GrowthCategories();
 
             Ex7 ex7 = new Ex7();
             ex7.HighestNumber();
