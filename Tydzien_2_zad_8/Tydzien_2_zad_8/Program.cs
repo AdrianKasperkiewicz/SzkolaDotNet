@@ -24,8 +24,10 @@ namespace Tydzien_2_zad_8
             //Ex6 ex6 = new Ex6();
             //ex6.Sum();
 
-            Ex7 ex7 = new Ex7();
-            ex7.Diamond();
+
+
+            Ex8 ex8 = new Ex8();
+            ex8.Reverse("adrian");
 
         }
     }
