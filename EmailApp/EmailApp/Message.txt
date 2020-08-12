@@ -1,1 +1,12 @@
-Temat: Adrian, Wiadomość: Adrianek, ID: 1, Data utworzenia: 0001-01-01 00:00:00
+ID: 1, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+ID: 2, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+ID: 3, Temat: dadsasddas, Wiadomość: asasdas,  Data utworzenia: 01.01.0001 00:00:00
+1, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+1, Temat: ad, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+0, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+0, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+0, Temat: sad, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+0, Temat: asd, Wiadomość: ads,  Data utworzenia: 01.01.0001 00:00:00
+0, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+0, Temat: asd, Wiadomość: asd,  Data utworzenia: 01.01.0001 00:00:00
+ID: 0, Temat: asdasd, Wiadomość: asdasdsa,  Data utworzenia: 01.01.0001 00:00:00

@@ -8,6 +8,9 @@ namespace EmailApp
         {
             StartScreen start = new StartScreen();
             start.FirstScreen();
+
+            //MessageOperator messageOperator = new MessageOperator();
+            //messageOperator.IdRaise();
         }
     }
 }

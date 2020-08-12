@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using static EmailApp.User;
 
 namespace EmailApp
 {
@@ -9,12 +10,13 @@ namespace EmailApp
     {
         UserService userService = new UserService();
         User user = new User();
+        
         public void FirstScreen()
         {
             Console.WriteLine("Witam Cię w mojej aplikacji emailowej!!");
             Console.WriteLine("Wybierz proszę co chcesz zrobić chcesz zrobić");
             Console.WriteLine("1 Aby wysłać maila");
-
+            Console.WriteLine("2 Aby dodać użytkownika");
             string option = Console.ReadLine();
             if (Int32.TryParse(option, out int number))
             {
@@ -22,6 +24,10 @@ namespace EmailApp
                 {
                     case 1:
                         MessageSending();
+                        break;
+
+                    case 2:
+                        NewUserAdd();
                         break;
                 }
             }
@@ -31,6 +37,10 @@ namespace EmailApp
                 
                 userService.UserMessage(user.EmailAdress, user.Message, user.Subject, user.MessageId, user.CreationDate);
 
+        }
+        public void NewUserAdd()
+        {
+            userService.AddNewUser(user.Id, user.Name, user.LastName, user.EmailAdress, user.DomainAdress, user.AllAdress);
         }
     }
 }
