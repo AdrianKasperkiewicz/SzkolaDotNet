@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using EmailApplication.Properties;
+using Email.App.Common;
+using Email.Domain.Common;
+using EmailApplication.Domain;
+using EmailApplication.Domain.Entity;
 
-namespace EmailApplication.Services
+namespace EmailApplication.Services.Concrete
 {
-    public class UserServices : Messages
+    public class UserServices : BaseService<User>
     {
         private string path =
                    @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";

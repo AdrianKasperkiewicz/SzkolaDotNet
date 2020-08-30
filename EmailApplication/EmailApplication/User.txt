@@ -1,3 +1,1 @@
-Imie Adrian, nazwisko AAAA, adres email asdasda@wp.pl
-Imie Dorota, nazwisko Jankowska, adres email doris@gmail.com
-
+Imie Adrian, nazwisko Kasperkiewicz, adres email adrian@wp.pl

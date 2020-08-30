@@ -1,2 +1,1 @@
-Adres email nadawcy: adad@wp.pl, Temat: aaa, Wiadomość: aaa
-Adres email nadawcy: doris@gmail.com, Temat: sialalal, Wiadomość: trolololo
+Adres email nadawcy: adrian@gmail.com, Temat: Jakiś temat, Wiadomość: Jakaś treść
