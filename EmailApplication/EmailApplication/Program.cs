@@ -1,5 +1,6 @@
 ﻿using System;
 using Email.App.Concrete;
+using Email.App.Managers;
 using EmailApplication.Services;
 using EmailApplication.Services.Concrete;
 
@@ -12,8 +13,10 @@ namespace EmailApplication
 
         static void Main(string[] args)
         {
-            AdminServices adminServices = new AdminServices();
-            UserServices userServices = new UserServices();
+            //AdminServices adminServices = new AdminServices();
+            //UserServices userServices = new UserServices();
+            AdminManager adminManager=new AdminManager();
+            UserManager userManager=new UserManager();
             Console.WriteLine("Witam w aplikacji mailowej");
             while (true)
             {
@@ -33,28 +36,28 @@ namespace EmailApplication
                     switch (number)
                     {
                         case 1:
-                            adminServices.AddUser("","","",0);
+                            adminManager.AddUser("","","",0);
                             break;
                         case 2:
-                            userServices.SendMessage("", "", "");
+                            userManager.SendMessage("", "", "");
                             break;
                         case 3:
-                            adminServices.CollectionOfUsers();
+                            adminManager.CollectionOfUsers();
                             break;
                         case 4:
-                            userServices.ShowMessageHistory();
+                            userManager.ShowMessageHistory();
                             break;
                         case 5:
-                            adminServices.DeleteUserFile();
+                            adminManager.DeleteUsersFile();
                             break;
                         case 6:
-                            adminServices.DeleteMessagesHistoryFile();
+                            adminManager.DeleteMessagesHistoryFile();
                             break;
                         case 7:
-                            adminServices.CreateNewUserFile();
+                            adminManager.CreateNewUserFile();
                             break;
                         case 8:
-                            adminServices.CreateNewMessageFile();
+                            adminManager.CreateNewMessageFile();
                             break;
                     }
                 }
