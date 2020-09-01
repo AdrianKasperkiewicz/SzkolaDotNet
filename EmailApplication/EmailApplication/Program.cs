@@ -1,7 +1,7 @@
 ﻿using System;
 using Email.App.Concrete;
 using EmailApplication.Services;
-using AdminServices = EmailApplication.Services.AdminServices;
+using EmailApplication.Services.Concrete;
 
 namespace EmailApplication
 {
@@ -33,28 +33,28 @@ namespace EmailApplication
                     switch (number)
                     {
                         case 1:
-                            var keyInfo = adminServices.AddUser()
+                            adminServices.AddUser("","","",0);
                             break;
                         case 2:
-                            SendMessage();
+                            userServices.SendMessage("", "", "");
                             break;
                         case 3:
-                            ShowAllUsers();
+                            adminServices.CollectionOfUsers();
                             break;
                         case 4:
-                            ShowAllMessages();
+                            userServices.ShowMessageHistory();
                             break;
                         case 5:
-                            DeleteUsersFile();
+                            adminServices.DeleteUserFile();
                             break;
                         case 6:
-                            DeleteHistoryOfmessagesFile();
+                            adminServices.DeleteMessagesHistoryFile();
                             break;
                         case 7:
-                            CreateUsersFile();
+                            adminServices.CreateNewUserFile();
                             break;
                         case 8:
-                            CreateMessagesFile();
+                            adminServices.CreateNewMessageFile();
                             break;
                     }
                 }

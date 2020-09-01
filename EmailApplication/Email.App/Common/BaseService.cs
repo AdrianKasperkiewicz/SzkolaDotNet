@@ -7,7 +7,7 @@ using Email.Domain.Common;
 
 namespace Email.App.Common
 {
-    public class BaseService<T> : IService<T> where T : BaseEntity
+    public class BaseService<T> : IService<T> where T : BaseEntity 
     {
         public List<T> Users { get; set; }
 

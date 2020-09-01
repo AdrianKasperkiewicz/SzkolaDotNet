@@ -12,13 +12,6 @@ namespace Email.App.Managers
                    @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
         public void SendMessage(string message, string subject, string email)
         {
-            Messages messages = new Messages()
-            {
-                Message = message,
-                Subject = subject,
-                Email = email
-            };
-
             if (File.Exists(path))
             {
                 Console.WriteLine("Wprowadź swój adres email");
@@ -27,7 +20,7 @@ namespace Email.App.Managers
                 subject = Console.ReadLine();
                 Console.WriteLine("Wprowadź treść wiadomości");
                 message = Console.ReadLine();
-                if (email != null && subject != null && messages != null)
+                if (email != null && subject != null && message != null)
                 {
                     List<string> arr = new List<string>();
                     arr.Add($"Adres email nadawcy: {email}, Temat: {subject}, Wiadomość: {message}");

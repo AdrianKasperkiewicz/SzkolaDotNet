@@ -2,25 +2,32 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Email.App.Common;
 using Email.App.Managers;
+using Email.Domain.Common;
 using EmailApplication.Domain;
 using EmailApplication.Domain.Entity;
 
 namespace Email.App.Concrete
 {
-    public class AdminServices : BaseService<User>
+    public class AdminServices : BaseService<User> 
     {
+        AuditableModel auditableModel =new AuditableModel();
         AdminManager adminManager = new AdminManager();
-        public void AddUser(string name, string lastName, string email, int id)
+
+        public List<User> AddUser(string name, string lastName, string email, int id)
         {
-            adminManager.AddUser(name, lastName, email, id);
+            User user = new User() {Name = name, LastName = lastName, Email = email, Id = id };
+           
+            adminManager.AddUser("","","",0);
+            return Users;
         }
-        public void DeleteUser()
-        {
-            adminManager.DeleteUsersFile();
-        }
+        //public void DeleteUser()
+        //{
+        //    DeleteUser();
+        //}
 
         public void DeleteMessagesHistoryFile()
         {
@@ -37,6 +44,11 @@ namespace Email.App.Concrete
         public void CreateNewUserFile()
         {
             adminManager.CreateNewUserFile();
+        }
+
+        public void DeleteUserFile()
+        {
+            adminManager.DeleteUsersFile();
         }
     }
 }

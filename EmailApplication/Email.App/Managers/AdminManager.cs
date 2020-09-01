@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Email.App.Managers
 {
-    public class AdminManager : AdminServices
+    public class AdminManager
     {
         private string pathUsers =
             @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.txt";
@@ -17,21 +17,34 @@ namespace Email.App.Managers
             @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
         public void AddUser(string name, string lastName, string email, int id)
         {
-            User user = new User() { Id = id, Name = name, LastName = lastName, Email = email };
-
-            Console.WriteLine("Wprowadź imie użytkownika");
-            name = Console.ReadLine();
-            Console.WriteLine("Wprowadź nazwisko użytkownika");
-            lastName = Console.ReadLine();
-            Console.WriteLine("Wprowadź adres mail");
-            email = Console.ReadLine();
-            Console.WriteLine("Wprowadź id");
-            string parseId;
-            parseId = Console.ReadLine();
-            Int32.TryParse(parseId, out id);
-            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
+            if (!File.Exists(pathUsers))
             {
-                if (File.Exists(pathUsers))
+                Console.WriteLine("Nie znaleziono pliku. Czy chcesz go utworzyć? Tak/Nie\r\n");
+                string option = Console.ReadLine().ToLower();
+                switch (option)
+                {
+                    case "tak":
+                        CreateNewUserFile();
+                        break;
+                    case "nie":
+                        Console.WriteLine("Nie zdecydowano się na utworzenie nowego pliku\r\n");
+                        break;
+                }
+            }
+            else if(File.Exists(pathUsers))
+            {
+                Console.WriteLine("Wprowadź imie użytkownika");
+                name = Console.ReadLine();
+                Console.WriteLine("Wprowadź nazwisko użytkownika");
+                lastName = Console.ReadLine();
+                Console.WriteLine("Wprowadź adres mail");
+                email = Console.ReadLine();
+                Console.WriteLine("Wprowadź id");
+                string parseId;
+                parseId = Console.ReadLine();
+                Int32.TryParse(parseId, out id);
+
+                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
                 {
                     List<string> newUser = new List<string>();
                     newUser.Add($"Imie {name}, nazwisko {lastName}, adres email {email} Id: {id}");
@@ -40,22 +53,8 @@ namespace Email.App.Managers
                 }
                 else
                 {
-                    Console.WriteLine("Nie znaleziono pliku. Czy chcesz go utworzyć? Tak/Nie\r\n");
-                    string option = Console.ReadLine().ToLower();
-                    switch (option)
-                    {
-                        case "tak":
-                            CreateNewUserFile();
-                            break;
-                        case "nie":
-                            Console.WriteLine("Nie zdecydowano się na utworzenie nowego pliku\r\n");
-                            break;
-                    }
+                    Console.WriteLine("Wartości są puste \r\n");
                 }
-            }
-            else
-            {
-                Console.WriteLine("Wartości są puste \r\n");
             }
         }
         public void DeleteUsersFile()
@@ -96,6 +95,10 @@ namespace Email.App.Managers
                         Console.WriteLine("Nie zdecydowano się na usunięcie pliku.\r\n");
                         break;
                 }
+            }
+            else
+            {
+                Console.WriteLine("Plik nie istnieje");
             }
         }
         public void CollectionOfUsers()

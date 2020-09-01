@@ -18,9 +18,12 @@ namespace EmailApplication.Services.Concrete
 
         public void SendMessage(string message, string subject, string email)
         {
-            userManager.SendMessage(message, subject, email);
+            Messages messages = new Messages() {Subject = subject, Message = message, Email = email};
+            userManager.SendMessage("","","");
+            
+            //userManager.SendMessage(message, subject, email);
         }
-        public void CreateNewmessageFile()
+        public void CreateNewMessageFile()
         {
             userManager.CreateNewMessageFile();
         }
