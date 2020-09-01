@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using Email.App.Common;
+using Email.App.Managers;
 using Email.Domain.Common;
 using EmailApplication.Domain;
 using EmailApplication.Domain.Entity;
@@ -12,67 +14,19 @@ namespace EmailApplication.Services.Concrete
 {
     public class UserServices : BaseService<User>
     {
-        private string path =
-                   @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
+        UserManager userManager = new UserManager();
+
         public void SendMessage(string message, string subject, string email)
         {
-            Messages messages = new Messages()
-            {
-                Message = message,
-                Subject = subject,
-                Email = email
-            };
-
-            if (File.Exists(path))
-            {
-                Console.WriteLine("Wprowadź swój adres email");
-                email = Console.ReadLine();
-                Console.WriteLine("Wprowadź temat");
-                subject = Console.ReadLine();
-                Console.WriteLine("Wprowadź treść wiadomości");
-                message = Console.ReadLine();
-                if (email != null && subject != null && messages != null)
-                {
-                    List<string> arr = new List<string>();
-                    arr.Add($"Adres email nadawcy: {email}, Temat: {subject}, Wiadomość: {message}");
-
-                    File.AppendAllLines(path, arr);
-                    Console.WriteLine($"Adres email nadawcy: {email}, Temat: {subject}, Wiadomość: {message}\r\n");
-                }
-            }
-            else 
-            {
-                Console.WriteLine("Plik nie istnieje. Czy chcesz go stworzyć? Tak/Nie\r\n");
-                string option = Console.ReadLine().ToLower();
-
-                switch (option)
-                {
-                    case "tak":
-                        CreateNewMessageFile();
-                        break;
-                    case "nie":
-                        Console.WriteLine("Nie zdecydowałeś się na utworzenie pliku.\r\n");
-                        break;
-                }
-            }
+            userManager.SendMessage(message, subject, email);
         }
-        public void CreateNewMessageFile()
+        public void CreateNewmessageFile()
         {
-            File.Create(path).Dispose();
-            Console.WriteLine("Utworzono plik ale jest on pusty. Proszę wysłać nową wiadomość\r\n");
+            userManager.CreateNewMessageFile();
         }
-
         public void ShowMessageHistory()
         {
-            if (File.Exists(path))
-            {
-                string messageHistory = File.ReadAllText(path);
-                Console.WriteLine(messageHistory);
-            }
-            else
-            {
-                Console.WriteLine("Nie znaleziono pliku\r\n");
-            }
+            userManager.ShowMessageHistory();
         }
     }
 }

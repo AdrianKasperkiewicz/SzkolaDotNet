@@ -64,47 +64,5 @@ namespace EmailApplication
                 }
             }
         }
-
-        private static MenuActionService Initialize(MenuActionService actionService)
-        {
-            actionService.AddNewAction(1, "UserAdd", "Main");
-        }
-        //public void SendMessage()
-        //{
-        //    userServices.SendMessage(userServices.Message, userServices.Subject, userServices.Email);
-        //}
-        //public void AddUser()
-        //{
-        //    adminServices.AddUser(adminServices.Name, adminServices.LastName, adminServices.Email);
-        //}
-
-        //public void ShowAllUsers()
-        //{
-        //    adminServices.CollectionOfUsers();
-        //}
-
-        //public void ShowAllMessages()
-        //{
-        //    userServices.ShowMessageHistory();
-        //}
-
-        //public void DeleteUsersFile()
-        //{
-        //    adminServices.DeleteUsersFile();
-        //}
-        //public void DeleteHistoryOfmessagesFile()
-        //{
-        //    adminServices.DeleteMessagesHistoryFile();
-        //}
-
-        //public void CreateUsersFile()
-        //{
-        //    adminServices.CreateNewUserFile();
-        //}
-
-        //public void CreateMessagesFile()
-        //{
-        //    adminServices.CreateNewMessageFile();
-        //}
     }
 }
