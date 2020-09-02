@@ -1,0 +1,3 @@
+Adres email nadawcy: aaaaa, Temat: aaaaaaaa, Wiadomość: aaaaaaaaaa, Data: 2020-09-02 07:22:54
+Adres email nadawcy: adrian@gmail.com, Temat: Jakiś temat, Wiadomość: Jakaś wiadomość, Data: 2020-09-02 07:24:54
+Adres email nadawcy: adrian@gmail.com, Temat: temat, Wiadomość: aaaa, Data: 2020-09-02 08:31:37

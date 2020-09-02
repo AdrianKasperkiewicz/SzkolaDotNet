@@ -5,17 +5,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Email.App.Managers
 {
     public class AdminManager
     {
         private string pathUsers =
-            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.txt";
+            @"C:\Users\adrian.kasperkiewicz\Desktop\Git\SzkolaDotNet\SzkolaDotNet\SzkolaDotNet\EmailApplication\EmailApplication\User.txt";
 
         private string pathMessages =
-            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
-        public void AddUser(string name, string lastName, string email, int id)
+            @"C:\Users\adrian.kasperkiewicz\Desktop\Git\SzkolaDotNet\SzkolaDotNet\SzkolaDotNet\EmailApplication\EmailApplication\Messages.txt";
+
+        public void AddUser(string name, string lastName, string email, int id, DateTime createdDateTime)
         {
             if (!File.Exists(pathUsers))
             {
@@ -31,7 +33,7 @@ namespace Email.App.Managers
                         break;
                 }
             }
-            else if(File.Exists(pathUsers))
+            else if (File.Exists(pathUsers))
             {
                 Console.WriteLine("Wprowadź imie użytkownika");
                 name = Console.ReadLine();
@@ -39,22 +41,33 @@ namespace Email.App.Managers
                 lastName = Console.ReadLine();
                 Console.WriteLine("Wprowadź adres mail");
                 email = Console.ReadLine();
-                Console.WriteLine("Wprowadź id");
-                string parseId;
-                parseId = Console.ReadLine();
-                Int32.TryParse(parseId, out id);
-
-                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                Match match = regex.Match(email);
+                if (match.Success)
                 {
-                    List<string> newUser = new List<string>();
-                    newUser.Add($"Imie {name}, nazwisko {lastName}, adres email {email} Id: {id}");
-                    File.AppendAllLines(pathUsers, newUser);
-                    Console.WriteLine($"Dodano użytkownika: Imie {name}, Nazwisko {lastName}, adres email {email}, Id: {id}");
+                    Console.WriteLine("\r\nWprowadź id");
+                    string parseId;
+                    parseId = Console.ReadLine();
+                    Int32.TryParse(parseId, out id);
+                    createdDateTime = DateTime.Now;
+
+                    if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
+                    {
+                        List<string> newUser = new List<string>();
+                        newUser.Add($"Imie {name}, nazwisko {lastName}, adres email {email}, Id: {id}, Data: {createdDateTime}");
+                        File.AppendAllLines(pathUsers, newUser);
+                        Console.WriteLine($"Dodano użytkownika: Imie {name}, Nazwisko {lastName}, Adres email {email}, Id: {id}, Data: {createdDateTime}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wartości są puste \r\n");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Wartości są puste \r\n");
+                    Console.WriteLine($"\r\nNiepoprawny adres email: {email}\r\n");
                 }
+
             }
         }
         public void DeleteUsersFile()
@@ -98,7 +111,7 @@ namespace Email.App.Managers
             }
             else
             {
-                Console.WriteLine("Plik nie istnieje");
+                Console.WriteLine("Plik nie istnieje\r\n");
             }
         }
         public void CollectionOfUsers()

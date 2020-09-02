@@ -16,12 +16,11 @@ namespace EmailApplication.Services.Concrete
     {
         UserManager userManager = new UserManager();
 
-        public void SendMessage(string message, string subject, string email)
+        public void SendMessage(string message, string subject, string email, DateTime createdDateTime)
         {
-            Messages messages = new Messages() {Subject = subject, Message = message, Email = email};
-            userManager.SendMessage("","","");
+            BaseEntity baseEntity = new BaseEntity() { Subject = subject, Message = message, Email = email , CreatedDateTime=createdDateTime};
             
-            //userManager.SendMessage(message, subject, email);
+            userManager.SendMessage("","","", DateTime.Now);
         }
         public void CreateNewMessageFile()
         {

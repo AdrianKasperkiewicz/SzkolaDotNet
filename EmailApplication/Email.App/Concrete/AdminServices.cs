@@ -17,11 +17,11 @@ namespace Email.App.Concrete
         AuditableModel auditableModel =new AuditableModel();
         AdminManager adminManager = new AdminManager();
 
-        public List<User> AddUser(string name, string lastName, string email, int id)
+        public List<User> AddUser(string name, string lastName, string email, int id, DateTime createdDateTime)
         {
-            User user = new User() {Name = name, LastName = lastName, Email = email, Id = id };
+            User user = new User() {Name = name, LastName = lastName, Email = email, Id = id, CreatedDateTime = createdDateTime};
            
-            adminManager.AddUser("","","",0);
+            adminManager.AddUser("","","",0, DateTime.Now);
             return Users;
         }
         //public void DeleteUser()
