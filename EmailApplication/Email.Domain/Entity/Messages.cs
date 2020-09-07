@@ -7,7 +7,7 @@ namespace EmailApplication.Domain.Entity
 {
     public class Messages :BaseEntity
     {
-        public string Message { get; set; }
+        public string MessageContents { get; set; }
         public string Subject { get; set; }
         public string Email { get; set; }
 

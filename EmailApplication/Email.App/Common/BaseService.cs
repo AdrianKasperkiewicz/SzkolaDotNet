@@ -10,10 +10,17 @@ namespace Email.App.Common
     public class BaseService<T> : IService<T> where T : BaseEntity 
     {
         public List<T> Users { get; set; }
+        public List<T> Messages { get; set; }
 
         public BaseService()
         {
             Users = new List<T>();
+        }
+
+        public BaseService(T message)
+        {
+            Messages.Add(message);
+            
         }
         public List<T> GetAllUsers()
         {
@@ -40,6 +47,11 @@ namespace Email.App.Common
         public void RemoveUser(T user)
         {
             Users.Remove(user);
+        }
+
+        public void SendMessage(T message)
+        {
+            Messages.Add(message);
         }
     }
 }

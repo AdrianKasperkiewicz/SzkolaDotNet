@@ -36,10 +36,10 @@ namespace EmailApplication
                     switch (number)
                     {
                         case 1:
-                            adminManager.AddUser("","","",0, DateTime.Now);
+                            adminManager.AddUser();
                             break;
                         case 2:
-                            userManager.SendMessage("", "", "", DateTime.Now);
+                            userManager.SendMessage();
                             break;
                         case 3:
                             adminManager.CollectionOfUsers();

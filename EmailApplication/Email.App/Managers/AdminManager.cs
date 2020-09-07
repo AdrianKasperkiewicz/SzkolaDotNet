@@ -6,19 +6,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Email.Domain.Common;
 
 namespace Email.App.Managers
 {
-    public class AdminManager
+    public class AdminManager : AdminServices
     {
+        private readonly AdminServices adminServices = new AdminServices();
+        private readonly AuditableModel auditableModel = new AuditableModel();
+
         private string pathUsers =
-            @"C:\Users\adrian.kasperkiewicz\Desktop\Git\SzkolaDotNet\SzkolaDotNet\SzkolaDotNet\EmailApplication\EmailApplication\User.txt";
+            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.txt";
 
         private string pathMessages =
-            @"C:\Users\adrian.kasperkiewicz\Desktop\Git\SzkolaDotNet\SzkolaDotNet\SzkolaDotNet\EmailApplication\EmailApplication\Messages.txt";
+            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
 
-        public void AddUser(string name, string lastName, string email, int id, DateTime createdDateTime)
+
+        public void AddUser()
         {
+            adminServices.Users = new List<User>();
+
             if (!File.Exists(pathUsers))
             {
                 Console.WriteLine("Nie znaleziono pliku. Czy chcesz go utworzyć? Tak/Nie\r\n");
@@ -36,11 +43,11 @@ namespace Email.App.Managers
             else if (File.Exists(pathUsers))
             {
                 Console.WriteLine("Wprowadź imie użytkownika");
-                name = Console.ReadLine();
+                string name = Console.ReadLine();
                 Console.WriteLine("Wprowadź nazwisko użytkownika");
-                lastName = Console.ReadLine();
+                string lastName = Console.ReadLine();
                 Console.WriteLine("Wprowadź adres mail");
-                email = Console.ReadLine();
+                string email = Console.ReadLine();
                 Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
                 Match match = regex.Match(email);
                 if (match.Success)
@@ -48,8 +55,8 @@ namespace Email.App.Managers
                     Console.WriteLine("\r\nWprowadź id");
                     string parseId;
                     parseId = Console.ReadLine();
-                    Int32.TryParse(parseId, out id);
-                    createdDateTime = DateTime.Now;
+                    Int32.TryParse(parseId, out int id);
+                    DateTime createdDateTime = DateTime.Now;
 
                     if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
                     {
@@ -57,6 +64,15 @@ namespace Email.App.Managers
                         newUser.Add($"Imie {name}, nazwisko {lastName}, adres email {email}, Id: {id}, Data: {createdDateTime}");
                         File.AppendAllLines(pathUsers, newUser);
                         Console.WriteLine($"Dodano użytkownika: Imie {name}, Nazwisko {lastName}, Adres email {email}, Id: {id}, Data: {createdDateTime}");
+                        User user = new User()
+                        {
+                            Name = name,
+                            LastName = lastName,
+                            Email = email,
+                            Id = id,
+                            CreatedDateTime = createdDateTime
+                        };
+                        adminServices.AddUser(user);
                     }
                     else
                     {
@@ -79,7 +95,7 @@ namespace Email.App.Managers
                 switch (option)
                 {
                     case "tak":
-                        File.Delete(pathUsers);
+                        adminServices.DeleteUserFile();
                         Console.WriteLine("Poprawnie usunięto plik z użytkownikami\r\n");
                         break;
                     case "nie":
@@ -101,7 +117,7 @@ namespace Email.App.Managers
                 switch (option)
                 {
                     case "tak":
-                        File.Delete(pathMessages);
+                        adminServices.DeleteMessagesHistoryFile();
                         Console.WriteLine("Plik z historią wiadomości został usunięty\r\n");
                         break;
                     case "nie":
@@ -118,15 +134,30 @@ namespace Email.App.Managers
         {
             if (File.Exists(pathUsers))
             {
-                string usersCollection = File.ReadAllText(pathUsers);
-                Console.WriteLine(usersCollection);
+                adminServices.CollectionOfUsers();
+            }
+            else
+            {
+                Console.WriteLine("Plik nie istnieje. Czy chcesz go utworzyć?");
+                string option = Console.ReadLine().ToLower();
+                switch (option)
+                {
+                    case "tak":
+                        adminServices.CreateNewUsersFile();
+                        Console.WriteLine("Poprawnie utworzono plik, lecz jest on pusty. Proszę dodać nowego użytkownika\r\n");
+                        break;
+                    case "nie":
+                        Console.WriteLine("Nie zdecydowałeś się na utworzenie pliku");
+                        break;
+                }
+
             }
         }
         public void CreateNewMessageFile()
         {
             if (!File.Exists(pathMessages))
             {
-                File.Create(pathMessages).Dispose();
+                adminServices.CreateNewMessageFile();
                 Console.WriteLine("Poprawnie utworzono plik, lecz jest on pusty. Proszę utworzyć nową wiadomość.\r\n");
             }
             else
@@ -138,7 +169,7 @@ namespace Email.App.Managers
         {
             if (!File.Exists(pathUsers))
             {
-                File.Create(pathUsers).Dispose();
+                adminServices.CreateNewUsersFile();
                 Console.WriteLine("Poprawnie utworzono plik, lecz jest on pusty. Proszę dodać nowego użytkownika\r\n");
             }
             else

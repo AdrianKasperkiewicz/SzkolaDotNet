@@ -12,23 +12,18 @@ using EmailApplication.Domain.Entity;
 
 namespace EmailApplication.Services.Concrete
 {
-    public class UserServices : BaseService<User>
+    public class UserServices : BaseService<Messages>
     {
-        UserManager userManager = new UserManager();
+        private string path =
+            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
 
-        public void SendMessage(string message, string subject, string email, DateTime createdDateTime)
-        {
-            BaseEntity baseEntity = new BaseEntity() { Subject = subject, Message = message, Email = email , CreatedDateTime=createdDateTime};
-            
-            userManager.SendMessage("","","", DateTime.Now);
-        }
         public void CreateNewMessageFile()
         {
-            userManager.CreateNewMessageFile();
+            File.Create(path).Dispose();
         }
         public void ShowMessageHistory()
         {
-            userManager.ShowMessageHistory();
+            Console.WriteLine(File.ReadAllText(path));
         }
     }
 }

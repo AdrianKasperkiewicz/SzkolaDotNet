@@ -14,41 +14,33 @@ namespace Email.App.Concrete
 {
     public class AdminServices : BaseService<User> 
     {
-        AuditableModel auditableModel =new AuditableModel();
-        AdminManager adminManager = new AdminManager();
+        private string pathUsers =
+            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.txt";
 
-        public List<User> AddUser(string name, string lastName, string email, int id, DateTime createdDateTime)
-        {
-            User user = new User() {Name = name, LastName = lastName, Email = email, Id = id, CreatedDateTime = createdDateTime};
-           
-            adminManager.AddUser("","","",0, DateTime.Now);
-            return Users;
-        }
-        //public void DeleteUser()
-        //{
-        //    DeleteUser();
-        //}
+        private string pathMessages =
+            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
 
         public void DeleteMessagesHistoryFile()
         {
-            adminManager.DeleteMessagesHistoryFile();
+            File.Delete(pathMessages);
         }
         public void CollectionOfUsers()
         {
-            adminManager.CollectionOfUsers();
+            Console.WriteLine(File.ReadAllText(pathUsers));
+        }
+
+        public void CreateNewUsersFile()
+        {
+            File.Create(pathUsers).Dispose();
         }
         public void CreateNewMessageFile()
         {
-            adminManager.CreateNewMessageFile();
-        }
-        public void CreateNewUserFile()
-        {
-            adminManager.CreateNewUserFile();
+            File.Create(pathMessages).Dispose();
         }
 
         public void DeleteUserFile()
         {
-            adminManager.DeleteUsersFile();
+            File.Delete(pathUsers);
         }
     }
 }
