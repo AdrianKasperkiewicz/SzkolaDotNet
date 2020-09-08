@@ -71,7 +71,7 @@ namespace Email.App.Managers
                             Id = id,
                             CreatedDateTime = createdDateTime
                         };
-                        adminServices.AddUser(user);
+                        adminServices.Add(user);
                     }
                     else
                     {

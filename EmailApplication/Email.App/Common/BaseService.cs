@@ -17,23 +17,22 @@ namespace Email.App.Common
             Users = new List<T>();
         }
 
-        public BaseService(T message)
-        {
-            Messages.Add(message);
-            
-        }
-        public List<T> GetAllUsers()
+        //public BaseService(T message)
+        //{
+        //    Messages.Add(message);
+        //}
+        public List<T> GetAll()
         {
             return Users;
         }
 
-        public int AddUser(T user)
+        public int Add(T user)
         {
             Users.Add(user);
             return user.Id;
         }
 
-        public int EditUser(T user)
+        public int Edit(T user)
         {
             var entity = Users.FirstOrDefault(x => x.Id == user.Id);
             if (entity !=null)
@@ -44,7 +43,7 @@ namespace Email.App.Common
             return entity.Id;
         }
 
-        public void RemoveUser(T user)
+        public void Remove(T user)
         {
             Users.Remove(user);
         }
