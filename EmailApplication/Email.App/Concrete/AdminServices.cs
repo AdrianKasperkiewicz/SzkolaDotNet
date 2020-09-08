@@ -12,7 +12,7 @@ using EmailApplication.Domain.Entity;
 
 namespace Email.App.Concrete
 {
-    public class AdminServices : BaseService<User> 
+    public class AdminServices : BaseService<User>
     {
         private string pathUsers =
             @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.txt";

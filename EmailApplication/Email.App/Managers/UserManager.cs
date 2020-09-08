@@ -16,7 +16,6 @@ namespace Email.App.Managers
         UserServices userServices = new UserServices();
         public void SendMessage()
         {
-            userServices.Messages = new List<Messages>();
             if (File.Exists(path))
             {
                 Console.WriteLine("Wprowadź swój adres email");

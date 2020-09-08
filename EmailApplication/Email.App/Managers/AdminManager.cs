@@ -24,8 +24,6 @@ namespace Email.App.Managers
 
         public void AddUser()
         {
-            adminServices.Users = new List<User>();
-
             if (!File.Exists(pathUsers))
             {
                 Console.WriteLine("Nie znaleziono pliku. Czy chcesz go utworzyć? Tak/Nie\r\n");
@@ -34,6 +32,7 @@ namespace Email.App.Managers
                 {
                     case "tak":
                         CreateNewUserFile();
+                        Console.WriteLine("Pprawnie utwożono plik, lecz jest on pusty. Proszę dodać nowycj użytkowników");
                         break;
                     case "nie":
                         Console.WriteLine("Nie zdecydowano się na utworzenie nowego pliku\r\n");
