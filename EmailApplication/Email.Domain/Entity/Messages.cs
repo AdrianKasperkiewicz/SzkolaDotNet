@@ -10,7 +10,5 @@ namespace EmailApplication.Domain.Entity
         public string MessageContents { get; set; }
         public string Subject { get; set; }
         public string Email { get; set; }
-
-       
     }
 }

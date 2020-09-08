@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Email.App.Concrete;
 using EmailApplication.Services.Concrete;
 
 namespace Email.App.Managers
@@ -13,7 +14,8 @@ namespace Email.App.Managers
 
         private string path =
                    @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
-        UserServices userServices = new UserServices();
+        private readonly UserServices userServices = new UserServices();
+        private readonly AdminServices adminServices=new AdminServices();
         public void SendMessage()
         {
             if (File.Exists(path))
@@ -62,7 +64,8 @@ namespace Email.App.Managers
                 switch (option)
                 {
                     case "tak":
-                        CreateNewMessageFile();
+                        adminServices.CreateNewMessageFile();
+                        Console.WriteLine("Plik został poprawnie utworzony, lecz jest pusty. Proszę dodać nową wiadomość");
                         break;
                     case "nie":
                         Console.WriteLine("Nie zdecydowałeś się na utworzenie pliku.\r\n");
@@ -70,12 +73,6 @@ namespace Email.App.Managers
                 }
             }
         }
-        public void CreateNewMessageFile()
-        {
-            userServices.CreateNewMessageFile();
-            Console.WriteLine("Utworzono plik ale jest on pusty. Proszę wysłać nową wiadomość\r\n");
-        }
-
         public void ShowMessageHistory()
         {
             if (File.Exists(path))

@@ -17,13 +17,10 @@ namespace EmailApplication.Services.Concrete
         private string path =
             @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
 
-        public void CreateNewMessageFile()
-        {
-            File.Create(path).Dispose();
-        }
         public void ShowMessageHistory()
         {
             Console.WriteLine(File.ReadAllText(path));
         }
+
     }
 }

@@ -15,12 +15,8 @@ namespace Email.App.Common
         public BaseService()
         {
             Users = new List<T>();
+            Messages=new List<T>();
         }
-
-        //public BaseService(T message)
-        //{
-        //    Messages.Add(message);
-        //}
         public List<T> GetAll()
         {
             return Users;
