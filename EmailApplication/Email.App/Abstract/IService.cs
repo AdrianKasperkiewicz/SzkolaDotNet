@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EmailApplication.Domain.Entity;
 
 namespace Email.App.Abstract
 {
@@ -8,9 +9,9 @@ namespace Email.App.Abstract
     {
         //List<T> Users { get; set; }
         //List<T> Messages { get; set; }
-        List<T> GetAll();
-        int Add(T user);
-        int Edit(T user);
-        void Remove(T user);
+        List<T> GetAllUsers();
+        int AddUser(T user);
+        int EditUser(T user);
+        void RemoveUser(T user);
     }
 }

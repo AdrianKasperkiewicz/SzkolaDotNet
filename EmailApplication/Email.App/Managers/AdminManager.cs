@@ -10,7 +10,7 @@ using Email.Domain.Common;
 
 namespace Email.App.Managers
 {
-    public class AdminManager : AdminServices
+    public class AdminManager 
     {
         private readonly AdminServices adminServices = new AdminServices();
         private readonly AuditableModel auditableModel = new AuditableModel();
@@ -59,9 +59,9 @@ namespace Email.App.Managers
 
                     if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
                     {
-                        List<string> newUser = new List<string>();
-                        newUser.Add($"Imie {name}, nazwisko {lastName}, adres email {email}, Id: {id}, Data: {createdDateTime}");
-                        File.AppendAllLines(pathUsers, newUser);
+                        List<string> newuser = new List<string>();
+                        newuser.Add($"imie {name}, nazwisko {lastName}, adres email {email}, id: {id}, data: {createdDateTime}");
+                        File.AppendAllLines(pathUsers, newuser);
                         Console.WriteLine($"Dodano użytkownika: Imie {name}, Nazwisko {lastName}, Adres email {email}, Id: {id}, Data: {createdDateTime}");
                         User user = new User()
                         {
@@ -71,7 +71,7 @@ namespace Email.App.Managers
                             Id = id,
                             CreatedDateTime = createdDateTime
                         };
-                        adminServices.Add(user);
+                        adminServices.AddUser(user);
                     }
                     else
                     {

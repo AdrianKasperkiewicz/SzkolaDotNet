@@ -9,7 +9,7 @@ using EmailApplication.Services.Concrete;
 
 namespace Email.App.Managers
 {
-    public class UserManager : UserServices
+    public class UserManager 
     {
 
         private string path =

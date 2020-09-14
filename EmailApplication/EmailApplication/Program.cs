@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Email.App.Concrete;
 using Email.App.Managers;
 using EmailApplication.Services;
@@ -13,22 +14,17 @@ namespace EmailApplication
 
         static void Main(string[] args)
         {
-            //AdminServices adminServices = new AdminServices();
-            //UserServices userServices = new UserServices();
+            MenuActionService actionService=new MenuActionService();
             AdminManager adminManager=new AdminManager();
             UserManager userManager=new UserManager();
             Console.WriteLine("Witam w aplikacji mailowej");
             while (true)
             {
-                Console.WriteLine("Powiedz co chcesz zrobić");
-                Console.WriteLine("1. Dodać użytkownia");
-                Console.WriteLine("2. Wysłać mail");
-                Console.WriteLine("3. Zobaczyć listę użytkowników");
-                Console.WriteLine("4. Zobaczyć historię wiadomości");
-                Console.WriteLine("5. Usunąć plik z użytkownikami");
-                Console.WriteLine("6. Usunąć plik z historią wiadomości");
-                Console.WriteLine("7. Dodać plik User.txt");
-                Console.WriteLine("8. Dodać plik Messages.txt\r\n");
+                var mainMenu = actionService.GetMenuActionsByMenuName("Main");
+                for (int i = 0; i < mainMenu.Count; i++)
+                {
+                    Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
+                }
 
                 string option = Console.ReadLine();
                 if (Int32.TryParse(option, out int number) && number <= 8)
@@ -63,7 +59,7 @@ namespace EmailApplication
                 }
                 else
                 {
-                    Console.WriteLine("Wprowadzono błędną wartość\r\n");
+                    Console.WriteLine("An incorrect value has been entered\r\n");
                 }
             }
         }
