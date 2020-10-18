@@ -4,84 +4,120 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Email.App.Abstract;
 using Email.App.Concrete;
-using EmailApplication.Services.Concrete;
+
 
 namespace Email.App.Managers
 {
     public class UserManager 
     {
+        private IMessageService<Messages> _messageService;
+        public UserManager(IMessageService<Messages> messageService)
+        {
+            _messageService = messageService;
+        }
 
-        private string path =
-                   @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
-        private readonly UserServices userServices = new UserServices();
-        private readonly AdminServices adminServices=new AdminServices();
         public void SendMessage()
         {
-            if (File.Exists(path))
-            {
-                Console.WriteLine("Wprowadź swój adres email");
+                _messageService.CheckMessageFileExist();
+                Console.WriteLine("Enter user email adress");
                 string email = Console.ReadLine();
                 Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
                 Match match = regex.Match(email);
                 if (match.Success)
                 {
-                    Console.WriteLine("Wprowadź temat");
+                    Console.WriteLine("Please enter a subject");
                     string subject = Console.ReadLine();
-                    Console.WriteLine("Wprowadź treść wiadomości");
+                    Console.WriteLine("Please enter your message");
                     string message = Console.ReadLine();
+                    Console.WriteLine("Please enter message id");
+                    string parseId;
+                    parseId = Console.ReadLine();
+                    Int32.TryParse(parseId, out int id);
                     DateTime createdDateTime = DateTime.Now;
-                    if (email != null && subject != null && message != null)
+                    if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(subject) && !string.IsNullOrWhiteSpace(message) && id != null)
                     {
-                        List<string> newMessageAdd = new List<string>();
-                        newMessageAdd.Add($"Adres email nadawcy: {email}, Temat: {subject}, Wiadomość: {message}, Data: {createdDateTime}");
-
-                        File.AppendAllLines(path, newMessageAdd);
-                        Console.WriteLine($"Adres email nadawcy: {email}, Temat: {subject}, Wiadomość: {message}\r\n");
+                        Console.WriteLine($"Sender's email address: {email}, Subject: {subject}, Message: {message}, Id: {id}, Created Date: {createdDateTime}\r\n");
                         Messages messages = new Messages()
                         {
                             MessageContents = message,
                             Subject = subject,
-                            Email = email
+                            Email = email,
+                            CreatedDateTime= createdDateTime,
+                            Id=id
                         };
-                        userServices.SendMessage(messages);
+                        _messageService.SendMessage(messages);
                     }
                     else
                     {
-                        Console.WriteLine("Wartości są puste");
+                        Console.WriteLine("Values are empty");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"Wprowadzono błędny format adresu email: {email}");
+                    Console.WriteLine($"Incorrect email address format entered: {email}");
                 }
+        }
+        public void GetAllMessages()
+        {
+            _messageService.GetAllMessages();
+        }
+
+        public void GetMessageById()
+        {
+            Console.WriteLine("Enter the id of the message you want to find");
+            string parseId = Console.ReadLine();
+
+            if (Int32.TryParse(parseId, out int id))
+            {
+                Messages message = new Messages()
+                {
+                    Id = id
+                };
+                _messageService.GetMessageById(message);
             }
             else
             {
-                Console.WriteLine("Plik nie istnieje. Czy chcesz go stworzyć? Tak/Nie\r\n");
-                string option = Console.ReadLine().ToLower();
-
-                switch (option)
-                {
-                    case "tak":
-                        adminServices.CreateNewMessageFile();
-                        Console.WriteLine("Plik został poprawnie utworzony, lecz jest pusty. Proszę dodać nową wiadomość");
-                        break;
-                    case "nie":
-                        Console.WriteLine("Nie zdecydowałeś się na utworzenie pliku.\r\n");
-                        break;
-                }
+                Console.WriteLine("An incorrect value has been entered");
             }
         }
-        public void ShowMessageHistory()
+        public void DeleteMessageFile()
         {
-            if (File.Exists(path))
+            Console.WriteLine("Are you sure you want to delete the file with users? Yes/No");
+            string option = Console.ReadLine().ToLower();
+            switch (option)
             {
-                userServices.ShowMessageHistory();
+                case "yes":
+                    _messageService.DeleteMessageFile();
+                    break;
+                case "no":
+                    Console.WriteLine("The file was not deleted.\r\n");
+                    break;
+            }
+        }
+
+        public void CreateNewMessageFile()
+        {
+            _messageService.CreteNewMessageFile();
+        }
+
+        public void RemoveMessageById()
+        {
+            Console.WriteLine("Enter the id of the message you want to delete");
+            string parseId = Console.ReadLine();
+            if (Int32.TryParse(parseId, out int id))
+            {
+                Messages message = new Messages()
+                {
+                    Id = id
+                };
+                _messageService.RemoveMessageById(message);
+                Console.WriteLine("Message deleted successfully");
             }
             else
             {
-                Console.WriteLine("Nie znaleziono pliku\r\n");
+                Console.WriteLine("An incorrect value has been entered");
             }
         }
     }

@@ -9,23 +9,13 @@ namespace Email.App.Concrete
 {
     public class MenuActionService : BaseService<MenuAction>
     {
-       
+
         private List<MenuAction> menuActions;
 
         public MenuActionService()
         {
             Initialize();
         }
-
-        //public void AddNewAction(int id, string name, string menuName)
-        //{
-        //    MenuAction menuAction = new MenuAction(id, name, )
-        //    {
-        //        MenuName = menuName
-        //    };
-        //    menuActions.Add(menuAction);
-
-        //}
 
         public List<MenuAction> GetMenuActionsByMenuName(string menuName)
         {
@@ -42,14 +32,18 @@ namespace Email.App.Concrete
 
         private void Initialize()
         {
-            AddItem(new MenuAction(1,"Add User.", "Main"));
+            AddItem(new MenuAction(1, "Add User.", "Main"));
             AddItem(new MenuAction(2, "Send mail.", "Main"));
             AddItem(new MenuAction(3, "View the list of users.", "Main"));
             AddItem(new MenuAction(4, "Message history.", "Main"));
-            AddItem(new MenuAction(5, "Delete users file.", "Main"));
-            AddItem(new MenuAction(6, "Delete messages history file.", "Main"));
-            AddItem(new MenuAction(7, "Add file User.txt.", "Main"));
-            AddItem(new MenuAction(8, "Add file Messages.txt", "Main"));
+            AddItem(new MenuAction(5, "Get message by id.", "Main"));
+            AddItem(new MenuAction(6, "Remove message by id", "Main"));
+            AddItem(new MenuAction(7, "Delete users file.", "Main"));
+            AddItem(new MenuAction(8, "Delete messages file.", "Main"));
+            AddItem(new MenuAction(9, "Add file User.json.", "Main"));
+            AddItem(new MenuAction(10, "Add file Messages.json", "Main"));
+            AddItem(new MenuAction(11, "Get user by id", "Main"));
+            AddItem(new MenuAction(12, "Remove user by id", "Main"));
 
         }
     }

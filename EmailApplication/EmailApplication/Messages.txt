@@ -1,2 +1,0 @@
-Adres email nadawcy: aa@wp.pl, Temat: aaa, Wiadomość: a, Data: 08.09.2020 19:14:03
-Adres email nadawcy: a@wp.pl, Temat: temat, Wiadomość: wiadomość, Data: 08.09.2020 19:17:29

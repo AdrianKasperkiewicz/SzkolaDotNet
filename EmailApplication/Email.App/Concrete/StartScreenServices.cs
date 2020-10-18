@@ -7,7 +7,7 @@ using System.Text;
 using Email.App.Common;
 using Email.App.Concrete;
 using Email.Domain.Entity;
-using EmailApplication.Services.Concrete;
+
 
 namespace EmailApplication.App.Concrete
 {

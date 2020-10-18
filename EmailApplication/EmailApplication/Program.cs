@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Email.App.Common;
 using Email.App.Concrete;
 using Email.App.Managers;
-using EmailApplication.Services;
-using EmailApplication.Services.Concrete;
+using Email.Domain.Entity;
+
 
 namespace EmailApplication
 {
     public class Program
     {
-        //StartScreenServices startScreen=new StartScreenServices();
-        //startScreen.StartScreen();
-
         static void Main(string[] args)
         {
             MenuActionService actionService=new MenuActionService();
-            AdminManager adminManager=new AdminManager();
-            UserManager userManager=new UserManager();
-            Console.WriteLine("Witam w aplikacji mailowej");
+            AdminManager adminManager=new AdminManager(new JsonUserService());
+            //AdminManager adminManager=new AdminManager(new BaseService<User>());
+            UserManager userManager=new UserManager(new JsonMessagesServices());
+            Console.WriteLine("Welcome to the e-mail application");
             while (true)
             {
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main");
@@ -27,7 +26,7 @@ namespace EmailApplication
                 }
 
                 string option = Console.ReadLine();
-                if (Int32.TryParse(option, out int number) && number <= 8)
+                if (Int32.TryParse(option, out int number) && number <= 12)
                 {
                     switch (number)
                     {
@@ -41,20 +40,33 @@ namespace EmailApplication
                             adminManager.CollectionOfUsers();
                             break;
                         case 4:
-                            userManager.ShowMessageHistory();
+                            userManager.GetAllMessages();
                             break;
                         case 5:
-                            adminManager.DeleteUsersFile();
+                            userManager.GetMessageById();
                             break;
                         case 6:
-                            adminManager.DeleteMessagesHistoryFile();
+                            userManager.RemoveMessageById();
                             break;
                         case 7:
-                            adminManager.CreateNewUserFile();
+                            adminManager.DeleteUsersFile();
                             break;
                         case 8:
-                            adminManager.CreateNewMessageFile();
+                            userManager.DeleteMessageFile();
                             break;
+                        case 9:
+                            adminManager.CreateNewUserFile();
+                            break;
+                        case 10:
+                            userManager.CreateNewMessageFile();
+                            break;
+                        case 11:
+                            adminManager.GetUserById();
+                            break;
+                        case 12:
+                            adminManager.RemoveUserById();
+                            break;
+                        
                     }
                 }
                 else

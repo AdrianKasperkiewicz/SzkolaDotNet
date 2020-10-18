@@ -2,56 +2,44 @@
 using EmailApplication.Domain.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
+using Email.App.Abstract;
+using Email.App.Common;
 using Email.Domain.Common;
+using Email.Domain.Entity;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Email.App.Managers
 {
-    public class AdminManager 
+    public class AdminManager
     {
-        private readonly AdminServices adminServices = new AdminServices();
-        private readonly AuditableModel auditableModel = new AuditableModel();
+        private IUserService<User> _userService;
 
-        private string pathUsers =
-            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.txt";
-
-        private string pathMessages =
-            @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\Messages.txt";
-
-
+        public AdminManager(IUserService<User> userService)
+        {
+            _userService = userService;
+        }
         public void AddUser()
         {
-            if (!File.Exists(pathUsers))
-            {
-                Console.WriteLine("Nie znaleziono pliku. Czy chcesz go utworzyć? Tak/Nie\r\n");
-                string option = Console.ReadLine().ToLower();
-                switch (option)
-                {
-                    case "tak":
-                        CreateNewUserFile();
-                        Console.WriteLine("Pprawnie utwożono plik, lecz jest on pusty. Proszę dodać nowycj użytkowników");
-                        break;
-                    case "nie":
-                        Console.WriteLine("Nie zdecydowano się na utworzenie nowego pliku\r\n");
-                        break;
-                }
-            }
-            else if (File.Exists(pathUsers))
-            {
-                Console.WriteLine("Wprowadź imie użytkownika");
+                _userService.CheckUserFileExist();
+                Console.WriteLine("Enter user name");
                 string name = Console.ReadLine();
-                Console.WriteLine("Wprowadź nazwisko użytkownika");
+                Console.WriteLine("Enter user last name");
                 string lastName = Console.ReadLine();
-                Console.WriteLine("Wprowadź adres mail");
+                Console.WriteLine("Enter user email adress");
                 string email = Console.ReadLine();
                 Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
                 Match match = regex.Match(email);
                 if (match.Success)
                 {
-                    Console.WriteLine("\r\nWprowadź id");
+                    Console.WriteLine("Enter id");
                     string parseId;
                     parseId = Console.ReadLine();
                     Int32.TryParse(parseId, out int id);
@@ -59,10 +47,7 @@ namespace Email.App.Managers
 
                     if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
                     {
-                        List<string> newuser = new List<string>();
-                        newuser.Add($"imie {name}, nazwisko {lastName}, adres email {email}, id: {id}, data: {createdDateTime}");
-                        File.AppendAllLines(pathUsers, newuser);
-                        Console.WriteLine($"Dodano użytkownika: Imie {name}, Nazwisko {lastName}, Adres email {email}, Id: {id}, Data: {createdDateTime}");
+                        Console.WriteLine($"User added: Name: {name}, Last name:  {lastName}, Email adress: {email}, Id: {id}, Created date: {createdDateTime}");
                         User user = new User()
                         {
                             Name = name,
@@ -71,110 +56,76 @@ namespace Email.App.Managers
                             Id = id,
                             CreatedDateTime = createdDateTime
                         };
-                        adminServices.AddUser(user);
+                        _userService.AddUser(user);
                     }
                     else
                     {
-                        Console.WriteLine("Wartości są puste \r\n");
+                        Console.WriteLine("Values are empty \r\n");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"\r\nNiepoprawny adres email: {email}\r\n");
+                    Console.WriteLine($"\r\nInvalid email adress: {email}\r\n");
                 }
-
-            }
         }
         public void DeleteUsersFile()
         {
-            if (File.Exists(pathUsers))
+            Console.WriteLine("Are you sure you want to delete the file with users? Yes/No");
+            string option = Console.ReadLine().ToLower();
+            switch (option)
             {
-                Console.WriteLine("Czy na pewno chcesz usunąć plik z użytkonikami? Tak/Nie\r\n");
-                string option = Console.ReadLine().ToLower();
-                switch (option)
-                {
-                    case "tak":
-                        adminServices.DeleteUserFile();
-                        Console.WriteLine("Poprawnie usunięto plik z użytkownikami\r\n");
-                        break;
-                    case "nie":
-                        Console.WriteLine("Nie podjęto próby usunięcia pliku z użytkownikami\r\n");
-                        break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Plik nie istnieje\r\n");
-            }
-        }
-        public void DeleteMessagesHistoryFile()
-        {
-            if (File.Exists(pathMessages))
-            {
-                Console.WriteLine("Czy na pewno chcesz usunąć plik z historią wiadomości? Tak/Nie\r\n");
-                string option = Console.ReadLine().ToLower();
-                switch (option)
-                {
-                    case "tak":
-                        adminServices.DeleteMessagesHistoryFile();
-                        Console.WriteLine("Plik z historią wiadomości został usunięty\r\n");
-                        break;
-                    case "nie":
-                        Console.WriteLine("Nie zdecydowano się na usunięcie pliku.\r\n");
-                        break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Plik nie istnieje\r\n");
+                case "yes":
+                    _userService.DeleteUserFile();
+                    break;
+                case "no":
+                    Console.WriteLine("The file was not deleted.\r\n");
+                    break;
             }
         }
         public void CollectionOfUsers()
         {
-            if (File.Exists(pathUsers))
-            {
-                adminServices.CollectionOfUsers();
-            }
-            else
-            {
-                Console.WriteLine("Plik nie istnieje. Czy chcesz go utworzyć?");
-                string option = Console.ReadLine().ToLower();
-                switch (option)
-                {
-                    case "tak":
-                        adminServices.CreateNewUsersFile();
-                        Console.WriteLine("Poprawnie utworzono plik, lecz jest on pusty. Proszę dodać nowego użytkownika\r\n");
-                        break;
-                    case "nie":
-                        Console.WriteLine("Nie zdecydowałeś się na utworzenie pliku");
-                        break;
-                }
-
-            }
-        }
-        public void CreateNewMessageFile()
-        {
-            if (!File.Exists(pathMessages))
-            {
-                adminServices.CreateNewMessageFile();
-                Console.WriteLine("Poprawnie utworzono plik, lecz jest on pusty. Proszę utworzyć nową wiadomość.\r\n");
-            }
-            else
-            {
-                Console.WriteLine("Plik już istnieje\r\n");
-            }
+            _userService.GetAllUsers();
         }
         public void CreateNewUserFile()
         {
-            if (!File.Exists(pathUsers))
+            _userService.CreteNewUserFile();
+        }
+
+        public void GetUserById()
+        {
+            Console.WriteLine("Enter the id of the user you want to find");
+            string parseId = Console.ReadLine();
+            
+            if (Int32.TryParse(parseId, out int id))
             {
-                adminServices.CreateNewUsersFile();
-                Console.WriteLine("Poprawnie utworzono plik, lecz jest on pusty. Proszę dodać nowego użytkownika\r\n");
+                User user = new User()
+                {
+                    Id = id
+                };
+              _userService.GetUserById(user); 
             }
             else
             {
-                Console.WriteLine("Plik już istnieje\r\n");
+                Console.WriteLine("An incorrect value has been entered");
             }
+        }
+        public void RemoveUserById()
+        {
+           Console.WriteLine("Enter the id of the user you want to delete");
+           string parseId = Console.ReadLine();
+           if (Int32.TryParse(parseId, out int id))
+           {
+               User user = new User()
+               {
+                   Id = id
+               };
+               _userService.RemoveUserById(user);
+               Console.WriteLine("User deleted successfully");
+           }
+           else
+           {
+               Console.WriteLine("An incorrect value has been entered");
+           }
         }
     }
 }

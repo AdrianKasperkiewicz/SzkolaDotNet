@@ -1,6 +1,0 @@
-EmailApplication.Domain.Entity.User
-Twoje dane to:EmailApplication.Domain.Entity.User
-Twoje dane to:EmailApplication.Domain.Entity.User
-imie Adrian, nazwisko Kasperkiewicz, adres email adrian@gmail.com, id: 2, data: 14.09.2020 17:05:26
-imie Adrian, nazwisko Kasp, adres email adrian@wp.pl, id: 3, data: 14.09.2020 17:07:55
-imie Adrian, nazwisko Kasperkiewicz, adres email adrian@gmail.com, id: 2, data: 14.09.2020 21:37:26
