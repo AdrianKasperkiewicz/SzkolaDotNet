@@ -1,67 +1,67 @@
-﻿using EmailApplication.Domain.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
+
 using Email.App.Abstract;
-using Email.App.Concrete;
+using Email.Domain.Entity;
 
 
 namespace Email.App.Managers
 {
-    public class UserManager 
+    public class UserPresenter
     {
         private IMessageService<Messages> _messageService;
-        public UserManager(IMessageService<Messages> messageService)
+        public UserPresenter(IMessageService<Messages> messageService)
         {
             _messageService = messageService;
         }
 
         public void SendMessage()
         {
-                _messageService.CheckMessageFileExist();
-                Console.WriteLine("Enter user email adress");
-                string email = Console.ReadLine();
-                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-                Match match = regex.Match(email);
-                if (match.Success)
+            _messageService.CheckMessageFileExist();
+            Console.WriteLine("Enter user email adress");
+            string email = Console.ReadLine();
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(email);
+            if (match.Success)
+            {
+                Console.WriteLine("Please enter a subject");
+                string subject = Console.ReadLine();
+                Console.WriteLine("Please enter your message");
+                string message = Console.ReadLine();
+                Console.WriteLine("Please enter message id");
+                string parseId;
+                parseId = Console.ReadLine();
+                Int32.TryParse(parseId, out int id);
+                DateTime createdDateTime = DateTime.Now;
+                if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(subject) && !string.IsNullOrWhiteSpace(message) && id != null)
                 {
-                    Console.WriteLine("Please enter a subject");
-                    string subject = Console.ReadLine();
-                    Console.WriteLine("Please enter your message");
-                    string message = Console.ReadLine();
-                    Console.WriteLine("Please enter message id");
-                    string parseId;
-                    parseId = Console.ReadLine();
-                    Int32.TryParse(parseId, out int id);
-                    DateTime createdDateTime = DateTime.Now;
-                    if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(subject) && !string.IsNullOrWhiteSpace(message) && id != null)
+                    Console.WriteLine($"Sender's email address: {email}, Subject: {subject}, Message: {message}, Id: {id}, Created Date: {createdDateTime}\r\n");
+                    Messages messages = new Messages()
                     {
-                        Console.WriteLine($"Sender's email address: {email}, Subject: {subject}, Message: {message}, Id: {id}, Created Date: {createdDateTime}\r\n");
-                        Messages messages = new Messages()
-                        {
-                            MessageContents = message,
-                            Subject = subject,
-                            Email = email,
-                            CreatedDateTime= createdDateTime,
-                            Id=id
-                        };
-                        _messageService.SendMessage(messages);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Values are empty");
-                    }
+                        MessageContents = message,
+                        Subject = subject,
+                        Email = email,
+                        CreatedDateTime = createdDateTime,
+                        Id = id
+                    };
+                    _messageService.SendMessage(messages);
                 }
                 else
                 {
-                    Console.WriteLine($"Incorrect email address format entered: {email}");
+                    Console.WriteLine("Values are empty");
                 }
+            }
+            else
+            {
+                Console.WriteLine($"Incorrect email address format entered: {email}");
+            }
         }
         public void GetAllMessages()
         {
-            _messageService.GetAllMessages();
+            var messages = _messageService.GetAllMessages();
+            
+            messages.ForEach(x => Console.WriteLine($"({x.Email})"));
         }
 
         public void GetMessageById()

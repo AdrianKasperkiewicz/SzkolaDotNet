@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Email.App.Abstract;
-using EmailApplication.Domain.Entity;
+using Email.App.Database;
+using Email.Domain.Entity;
 using Newtonsoft.Json;
 
-namespace Email.App.Common
+namespace Email.App.Service
 {
     public class JsonMessagesServices : IMessageService<Messages>
     {
@@ -61,17 +61,9 @@ namespace Email.App.Common
 
         public List<Messages> GetAllMessages()
         {
-            List<Messages> messagesList;
-            using (StreamReader sr = new StreamReader(pathMessages))
-            {
-                string json = sr.ReadLine();
-                messagesList = JsonConvert.DeserializeObject<List<Messages>>(json);
-                foreach (Messages message in messagesList)
-                {
-                    Console.WriteLine($"Email adress: {message.Email} Subject: {message.Subject} User id: {message.Id} Message contents: {message.MessageContents}");
-                }
-            }
-            return messagesList;
+            var messageDatabase = new DatabaseManager<Messages>();
+
+            return messageDatabase.GetAll();
         }
 
         public void GetMessageById(Messages message)

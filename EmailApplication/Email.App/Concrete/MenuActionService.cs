@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using Email.App.Common;
+using Email.App.Abstract;
 using Email.Domain.Entity;
 
 namespace Email.App.Concrete

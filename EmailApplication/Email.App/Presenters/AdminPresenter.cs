@@ -1,28 +1,15 @@
-﻿using Email.App.Concrete;
-using EmailApplication.Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Serialization;
-using Email.App.Abstract;
-using Email.App.Common;
-using Email.Domain.Common;
+using Email.App.Service;
 using Email.Domain.Entity;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace Email.App.Managers
+namespace Email.App.Presenters
 {
-    public class AdminManager
+    public class AdminPresenter
     {
-        private IUserService<User> _userService;
+        private readonly JsonUserService _userService;
 
-        public AdminManager(IUserService<User> userService)
+        public AdminPresenter(JsonUserService userService)
         {
             _userService = userService;
         }
@@ -84,7 +71,12 @@ namespace Email.App.Managers
         }
         public void CollectionOfUsers()
         {
-            _userService.GetAllUsers();
+            var userList = _userService.GetAllUsers();
+
+            foreach (var user in userList)
+            {
+                Console.WriteLine($"Name: {user.Name} Last name: {user.LastName} Email adress: {user.Email} User id: {user.Id} Creation date: {user.CreatedDateTime}");
+            }
         }
         public void CreateNewUserFile()
         {
@@ -115,7 +107,7 @@ namespace Email.App.Managers
            string parseId = Console.ReadLine();
            if (Int32.TryParse(parseId, out int id))
            {
-               User user = new User()
+               User user = new User
                {
                    Id = id
                };

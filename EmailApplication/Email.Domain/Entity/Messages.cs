@@ -1,17 +1,16 @@
 ﻿using Email.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace EmailApplication.Domain.Entity
+namespace Email.Domain.Entity
 {
-    public class Messages :BaseEntity
+    public class Messages : BaseEntity
     {
+        public int Id { get; set; }
         public string MessageContents { get; set; }
         public string Subject { get; set; }
         public string Email { get; set; }
         public Messages()
         {
         }
+
     }
 }

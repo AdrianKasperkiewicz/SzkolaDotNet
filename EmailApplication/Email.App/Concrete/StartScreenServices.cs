@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Email.App.Common;
-using Email.App.Concrete;
+﻿using System.Collections.Generic;
+using Email.App.Abstract;
 using Email.Domain.Entity;
 
-
-namespace EmailApplication.App.Concrete
+namespace Email.App.Concrete
 {
     public class StartScreenServices : BaseService<MenuAction>
     {

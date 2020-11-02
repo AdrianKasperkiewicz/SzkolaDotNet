@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using Email.App.Abstract;
-using Email.App.Managers;
 using Email.Domain.Common;
-using EmailApplication.Domain.Entity;
 
-namespace Email.App.Common
+namespace Email.App.Abstract
 {
     public class BaseService<T> : IUserService<T> where T : BaseEntity
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Email.App.Common;
 using Email.App.Concrete;
 using Email.App.Managers;
+using Email.App.Presenters;
+using Email.App.Service;
 using Email.Domain.Entity;
 
 
@@ -13,9 +14,9 @@ namespace EmailApplication
         static void Main(string[] args)
         {
             MenuActionService actionService=new MenuActionService();
-            AdminManager adminManager=new AdminManager(new JsonUserService());
-            //AdminManager adminManager=new AdminManager(new BaseService<User>());
-            UserManager userManager=new UserManager(new JsonMessagesServices());
+            AdminPresenter adminPresenter=new AdminPresenter(new JsonUserService());
+            //AdminPresenter adminPresenter=new AdminPresenter(new BaseService<User>());
+            UserPresenter userPresenter=new UserPresenter(new JsonMessagesServices());
             Console.WriteLine("Welcome to the e-mail application");
             while (true)
             {
@@ -31,40 +32,40 @@ namespace EmailApplication
                     switch (number)
                     {
                         case 1:
-                            adminManager.AddUser();
+                            adminPresenter.AddUser();
                             break;
                         case 2:
-                            userManager.SendMessage();
+                            userPresenter.SendMessage();
                             break;
                         case 3:
-                            adminManager.CollectionOfUsers();
+                            adminPresenter.CollectionOfUsers();
                             break;
                         case 4:
-                            userManager.GetAllMessages();
+                            userPresenter.GetAllMessages();
                             break;
                         case 5:
-                            userManager.GetMessageById();
+                            userPresenter.GetMessageById();
                             break;
                         case 6:
-                            userManager.RemoveMessageById();
+                            userPresenter.RemoveMessageById();
                             break;
                         case 7:
-                            adminManager.DeleteUsersFile();
+                            adminPresenter.DeleteUsersFile();
                             break;
                         case 8:
-                            userManager.DeleteMessageFile();
+                            userPresenter.DeleteMessageFile();
                             break;
                         case 9:
-                            adminManager.CreateNewUserFile();
+                            adminPresenter.CreateNewUserFile();
                             break;
                         case 10:
-                            userManager.CreateNewMessageFile();
+                            userPresenter.CreateNewMessageFile();
                             break;
                         case 11:
-                            adminManager.GetUserById();
+                            adminPresenter.GetUserById();
                             break;
                         case 12:
-                            adminManager.RemoveUserById();
+                            adminPresenter.RemoveUserById();
                             break;
                         
                     }

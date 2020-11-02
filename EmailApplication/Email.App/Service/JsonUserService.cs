@@ -1,17 +1,15 @@
-﻿using Email.App.Abstract;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Xml.Serialization;
+using Email.App.Abstract;
+using Email.App.Database;
 using Email.Domain.Entity;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
-namespace Email.App.Common
+namespace Email.App.Service
 {
-    public class JsonUserService : IUserService<User>
+    public class JsonUserService
     {
         private string pathUsers =
             @"C:\Users\Adrian\Documents\GitHub\SzkolaDotNet\Tydzien2\EmailApplication\EmailApplication\User.json";
@@ -35,17 +33,9 @@ namespace Email.App.Common
 
         public List<User> GetAllUsers()
         {
-            List<User> userList;
-            using (StreamReader sr = new StreamReader(pathUsers))
-            {
-                string json = sr.ReadLine();
-                userList = JsonConvert.DeserializeObject<List<User>>(json);
-                foreach (User user in userList)
-                {
-                    Console.WriteLine($"Name: {user.Name} Last name: {user.LastName} Email adress: {user.Email} User id: {user.Id} Creation date: {user.CreatedDateTime}");
-                }
-            }
-            return userList;
+          var databaseManager = new DatabaseManager<User>();
+          
+          return databaseManager.GetAll();
         }
 
         public void GetUserById(User user)
