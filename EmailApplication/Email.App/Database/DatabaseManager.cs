@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 using Email.Domain.Common;
 using Newtonsoft.Json;
 
@@ -30,13 +30,34 @@ namespace Email.App.Database
             return entity.Id;
         }
 
-        public void Delete(T entity)
+        public void Delete(T entity)    //Do poprawy. Wyszukuje odpowiedniego usera o danym ID.
         {
-
+            List<T> entityList;
+            using (var sr = new StreamReader(_filePath))
+            {
+                var json = sr.ReadToEnd();
+                entityList = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+                var userById = entityList.Where(x => x.Id == entity.Id);
+                //entityList.Remove(userById);
+            }
+            
+            
+            File.WriteAllText(_filePath, JsonConvert.SerializeObject(entityList));
         }
 
-        public void Update(T entity)
+        public void Update(T entity)    //Do zrobienia
         {
+            List<T> entityList;
+            using (var sr = new StreamReader(_filePath))
+            {
+                var json = sr.ReadToEnd();
+                entityList = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+                foreach (var userEdit in entityList)
+                {
+                    userEdit.Id = entity.Id;
+                }
+            }
+            File.WriteAllText(_filePath, JsonConvert.SerializeObject(entityList));
         }
 
         public List<T> GetAll()
@@ -47,13 +68,24 @@ namespace Email.App.Database
                 var json = sr.ReadLine();
                 entityList = JsonConvert.DeserializeObject<List<T>>(json);
             }
-
             return entityList;
         }
         
-        public T GetById()
+        public List<T> GetById(T entity)
         {
-            return null;
+            List<T> entityList;
+            using (var sr = new StreamReader(_filePath))
+            {
+                var json = sr.ReadToEnd();
+                entityList = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+            }
+            var userById = entityList.Where(x => x.Id == entity.Id).ToList();
+            return userById;
+        }
+
+        public void FIleExist(T entity)     //Do zrobienia... Nie wiem czy aby na pewno ta metoda ma być w DatabaseManager
+        {
+
         }
     }
 }

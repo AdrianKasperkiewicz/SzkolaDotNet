@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Email.App.Concrete;
+using Email.App.Database;
 using Email.App.Managers;
 using Email.App.Presenters;
-using Email.App.Service;
 using Email.Domain.Entity;
 
 
@@ -14,9 +13,10 @@ namespace EmailApplication
         static void Main(string[] args)
         {
             MenuActionService actionService=new MenuActionService();
-            AdminPresenter adminPresenter=new AdminPresenter(new JsonUserService());
+            //AdminPresenter adminPresenter=new AdminPresenter(new JsonUserService());
+            AdminPresenter adminPresenter = new AdminPresenter(new DatabaseManager<User>());
             //AdminPresenter adminPresenter=new AdminPresenter(new BaseService<User>());
-            UserPresenter userPresenter=new UserPresenter(new JsonMessagesServices());
+            UserPresenter userPresenter=new UserPresenter(new DatabaseManager<Messages>());
             Console.WriteLine("Welcome to the e-mail application");
             while (true)
             {
@@ -50,13 +50,13 @@ namespace EmailApplication
                             userPresenter.RemoveMessageById();
                             break;
                         case 7:
-                            adminPresenter.DeleteUsersFile();
+                            //adminPresenter.DeleteUsersFile();
                             break;
                         case 8:
                             userPresenter.DeleteMessageFile();
                             break;
                         case 9:
-                            adminPresenter.CreateNewUserFile();
+                            //adminPresenter.CreateNewUserFile();
                             break;
                         case 10:
                             userPresenter.CreateNewMessageFile();

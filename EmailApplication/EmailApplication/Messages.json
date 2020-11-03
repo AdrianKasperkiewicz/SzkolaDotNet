@@ -1,1 +1,1 @@
-[{"MessageContents":"message","Subject":"subject","Email":"adrian@wp.pl","Id":1,"CreatedDateTime":"2020-10-18T22:20:53.7678885+02:00"},{"MessageContents":"message","Subject":"subject","Email":"marian@wp.pl","Id":2,"CreatedDateTime":"2020-10-18T22:21:10.7053537+02:00"}]
+[{"Id":2,"MessageContents":"message","Subject":"subject","Email":"marian@wp.pl","CreatedDateTime":"2020-10-18T22:21:10.7053537+02:00"},{"Id":1,"MessageContents":"m","Subject":"s","Email":"adrian@wp.pl","CreatedDateTime":"2020-11-03T19:37:47.3576518+01:00"}]

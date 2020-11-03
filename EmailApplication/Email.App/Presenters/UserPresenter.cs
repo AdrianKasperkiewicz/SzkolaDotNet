@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
-using Email.App.Abstract;
+using Email.App.Database;
 using Email.Domain.Entity;
 
 
@@ -10,15 +8,15 @@ namespace Email.App.Managers
 {
     public class UserPresenter
     {
-        private IMessageService<Messages> _messageService;
-        public UserPresenter(IMessageService<Messages> messageService)
+        private DatabaseManager<Messages> _databaseManager;
+        public UserPresenter(DatabaseManager<Messages> databaseManager)
         {
-            _messageService = messageService;
+            _databaseManager = databaseManager;
         }
 
         public void SendMessage()
         {
-            _messageService.CheckMessageFileExist();
+            //_databaseManager.CheckMessageFileExist();
             Console.WriteLine("Enter user email adress");
             string email = Console.ReadLine();
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
@@ -45,7 +43,7 @@ namespace Email.App.Managers
                         CreatedDateTime = createdDateTime,
                         Id = id
                     };
-                    _messageService.SendMessage(messages);
+                    _databaseManager.Add(messages);
                 }
                 else
                 {
@@ -59,9 +57,9 @@ namespace Email.App.Managers
         }
         public void GetAllMessages()
         {
-            var messages = _messageService.GetAllMessages();
+            var messages = _databaseManager.GetAll();
             
-            messages.ForEach(x => Console.WriteLine($"({x.Email})"));
+            messages.ForEach(x => Console.WriteLine($"Email Adress: {x.Email},Subject: {x.Subject} Message: {x.MessageContents}, Send date: {x.CreatedDateTime}, Id: {x.Id}"));
         }
 
         public void GetMessageById()
@@ -75,7 +73,8 @@ namespace Email.App.Managers
                 {
                     Id = id
                 };
-                _messageService.GetMessageById(message);
+                var messageById=_databaseManager.GetById(message);
+                messageById.ForEach(x=> Console.WriteLine($"Email Adress: {x.Email},Subject: {x.Subject} Message: {x.MessageContents}, Send date: {x.CreatedDateTime}, Id: {x.Id}"));
             }
             else
             {
@@ -89,7 +88,7 @@ namespace Email.App.Managers
             switch (option)
             {
                 case "yes":
-                    _messageService.DeleteMessageFile();
+                    //_databaseManager.DeleteMessageFile();
                     break;
                 case "no":
                     Console.WriteLine("The file was not deleted.\r\n");
@@ -99,7 +98,7 @@ namespace Email.App.Managers
 
         public void CreateNewMessageFile()
         {
-            _messageService.CreteNewMessageFile();
+            //_databaseManager.CreteNewMessageFile();
         }
 
         public void RemoveMessageById()
@@ -112,7 +111,7 @@ namespace Email.App.Managers
                 {
                     Id = id
                 };
-                _messageService.RemoveMessageById(message);
+                _databaseManager.Delete(message);
                 Console.WriteLine("Message deleted successfully");
             }
             else

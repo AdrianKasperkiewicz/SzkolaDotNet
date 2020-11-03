@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Email.App.Service;
+using Email.App.Database;
 using Email.Domain.Entity;
 
 namespace Email.App.Presenters
 {
     public class AdminPresenter
     {
-        private readonly JsonUserService _userService;
+        private readonly DatabaseManager<User> _databaseManager;
 
-        public AdminPresenter(JsonUserService userService)
+        public AdminPresenter(DatabaseManager<User> databaseManager)
         {
-            _userService = userService;
+            _databaseManager = databaseManager;
         }
         public void AddUser()
         {
-                _userService.CheckUserFileExist();
+                //_databaseManager.CheckUserFileExist();    Do zrobienia
                 Console.WriteLine("Enter user name");
                 string name = Console.ReadLine();
                 Console.WriteLine("Enter user last name");
@@ -43,7 +43,7 @@ namespace Email.App.Presenters
                             Id = id,
                             CreatedDateTime = createdDateTime
                         };
-                        _userService.AddUser(user);
+                        _databaseManager.Add(user);
                     }
                     else
                     {
@@ -54,34 +54,31 @@ namespace Email.App.Presenters
                 {
                     Console.WriteLine($"\r\nInvalid email adress: {email}\r\n");
                 }
-        }
-        public void DeleteUsersFile()
-        {
-            Console.WriteLine("Are you sure you want to delete the file with users? Yes/No");
-            string option = Console.ReadLine().ToLower();
-            switch (option)
-            {
-                case "yes":
-                    _userService.DeleteUserFile();
-                    break;
-                case "no":
-                    Console.WriteLine("The file was not deleted.\r\n");
-                    break;
-            }
-        }
+        }   
+        //public void DeleteUsersFile()     Do zrobienia
+        //{
+        //    Console.WriteLine("Are you sure you want to delete the file with users? Yes/No");
+        //    string option = Console.ReadLine().ToLower();
+        //    switch (option)
+        //    {
+        //        case "yes":
+        //            _databaseManager.();
+        //            break;
+        //        case "no":
+        //            Console.WriteLine("The file was not deleted.\r\n");
+        //            break;
+        //    }
+        //}
         public void CollectionOfUsers()
         {
-            var userList = _userService.GetAllUsers();
+            var userList = _databaseManager.GetAll();
 
-            foreach (var user in userList)
-            {
-                Console.WriteLine($"Name: {user.Name} Last name: {user.LastName} Email adress: {user.Email} User id: {user.Id} Creation date: {user.CreatedDateTime}");
-            }
+            userList.ForEach(x=> Console.WriteLine($"Name: {x.Name} Last name: {x.LastName} Email adress: {x.Email} User id: {x.Id} Creation date: {x.CreatedDateTime}"));
         }
-        public void CreateNewUserFile()
-        {
-            _userService.CreteNewUserFile();
-        }
+        //public void CreateNewUserFile()   Do zrobienia
+        //{
+        //    _databaseManager.CreteNewUserFile();
+        //}
 
         public void GetUserById()
         {
@@ -94,7 +91,9 @@ namespace Email.App.Presenters
                 {
                     Id = id
                 };
-              _userService.GetUserById(user); 
+                var userListById = _databaseManager.GetById(user);
+                
+                userListById.ForEach(x=>Console.WriteLine($"Name: {x.Name}, Last name: {x.LastName}, Email adress: {x.Email}, Id: {x.Id}, Creation date: {x.CreatedDateTime}"));
             }
             else
             {
@@ -111,7 +110,7 @@ namespace Email.App.Presenters
                {
                    Id = id
                };
-               _userService.RemoveUserById(user);
+               _databaseManager.Delete(user);
                Console.WriteLine("User deleted successfully");
            }
            else
