@@ -16,7 +16,7 @@ namespace Email.App.Managers
 
         public void SendMessage()
         {
-            //_databaseManager.CheckMessageFileExist();
+            _databaseManager.FIleExist();
             Console.WriteLine("Enter user email adress");
             string email = Console.ReadLine();
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
@@ -55,6 +55,7 @@ namespace Email.App.Managers
                 Console.WriteLine($"Incorrect email address format entered: {email}");
             }
         }
+
         public void GetAllMessages()
         {
             var messages = _databaseManager.GetAll();
@@ -81,6 +82,7 @@ namespace Email.App.Managers
                 Console.WriteLine("An incorrect value has been entered");
             }
         }
+
         public void DeleteMessageFile()
         {
             Console.WriteLine("Are you sure you want to delete the file with users? Yes/No");
@@ -88,7 +90,7 @@ namespace Email.App.Managers
             switch (option)
             {
                 case "yes":
-                    //_databaseManager.DeleteMessageFile();
+                    _databaseManager.DeleteFile();
                     break;
                 case "no":
                     Console.WriteLine("The file was not deleted.\r\n");
@@ -98,7 +100,7 @@ namespace Email.App.Managers
 
         public void CreateNewMessageFile()
         {
-            //_databaseManager.CreteNewMessageFile();
+            _databaseManager.FIleExist();
         }
 
         public void RemoveMessageById()
