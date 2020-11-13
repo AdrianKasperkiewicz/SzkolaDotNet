@@ -16,7 +16,7 @@ namespace Email.App.Presenters
 
         public void AddUser()
         {
-            _databaseManager.FIleExist();
+           // _databaseManager.FIleExist();
             Console.WriteLine("Enter user name");
             string name = Console.ReadLine();
             Console.WriteLine("Enter user last name");
@@ -81,7 +81,7 @@ namespace Email.App.Presenters
 
         public void CreateNewUserFile()
         {
-            _databaseManager.FIleExist();
+          //  _databaseManager.FIleExist();
         }
 
         public void GetUserById()
@@ -109,13 +109,10 @@ namespace Email.App.Presenters
         {
             Console.WriteLine("Enter the id of the user you want to delete");
             string parseId = Console.ReadLine();
-            if (Int32.TryParse(parseId, out int id))
+            if (Int32.TryParse(parseId, out var id))
             {
-                User user = new User
-                {
-                    Id = id
-                };
-                _databaseManager.Delete(user);
+                
+                _databaseManager.Delete(id);
                 Console.WriteLine("User deleted successfully");
             }
             else

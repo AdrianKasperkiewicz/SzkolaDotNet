@@ -31,21 +31,16 @@ namespace Email.App.Database
             return entity.Id;
         }
 
-        public void Delete(T entity)    //Do poprawy. Usuwa wszystko z listy
+        public void Delete(int id)    //Do poprawy. Usuwa wszystko z listy
         {
-            List<T> entityList;
             using (var sr = new StreamReader(_filePath))
             {
                 var json = sr.ReadToEnd();
-                entityList = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
-                var toDelete = entityList.Where(x => x.Id == entity.Id).ToList();
-                foreach (var item in toDelete)
-                {
-                    entityList.Remove(item);
-                }
-                
+                var entityList = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+                var filteredList = entityList .Where(x => x.Id != id).ToList();
+
+                File.WriteAllText(_filePath, JsonConvert.SerializeObject(filteredList));
             }
-            File.WriteAllText(_filePath, JsonConvert.SerializeObject(entityList));
         }
 
         public void Update(T entity)    //Do zrobienia
@@ -55,11 +50,15 @@ namespace Email.App.Database
             {
                 var json = sr.ReadToEnd();
                 entityList = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
-                foreach (var userEdit in entityList)
+
+                var index = entityList.FindIndex(x => x.Id == entity.Id);
+
+                if (index >= 0)
                 {
-                    userEdit.Id = entity.Id;
+                    entityList[index] = entity;
                 }
             }
+
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(entityList));
         }
 
@@ -88,6 +87,7 @@ namespace Email.App.Database
 
         public void FileExist()    
         {
+
             if (!File.Exists(_filePath))
             {
                 File.Create(_filePath).Dispose();

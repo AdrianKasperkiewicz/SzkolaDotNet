@@ -16,7 +16,7 @@ namespace Email.App.Managers
 
         public void SendMessage()
         {
-            _databaseManager.FIleExist();
+           // _databaseManager.FIleExist();
             Console.WriteLine("Enter user email adress");
             string email = Console.ReadLine();
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
@@ -100,7 +100,7 @@ namespace Email.App.Managers
 
         public void CreateNewMessageFile()
         {
-            _databaseManager.FIleExist();
+         //   _databaseManager.FIleExist();
         }
 
         public void RemoveMessageById()
@@ -109,11 +109,7 @@ namespace Email.App.Managers
             string parseId = Console.ReadLine();
             if (Int32.TryParse(parseId, out int id))
             {
-                Messages message = new Messages()
-                {
-                    Id = id
-                };
-                _databaseManager.Delete(message);
+                _databaseManager.Delete(id);
                 Console.WriteLine("Message deleted successfully");
             }
             else
