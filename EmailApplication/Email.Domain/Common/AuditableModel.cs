@@ -13,7 +13,7 @@ namespace Email.Domain.Common
         public DateTime CreatedDateTime { get; set; }
         [JsonIgnore]
         public int? ModifiedById { get; set; }
-        [JsonIgnore]
-        public DateTime? ModifiedDateTime { get; set; }
+        
+        public DateTime? UpdatedDateTime { get; set; }
     }
 }

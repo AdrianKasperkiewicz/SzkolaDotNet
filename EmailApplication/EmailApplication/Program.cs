@@ -25,7 +25,7 @@ namespace EmailApplication
                 }
 
                 string option = Console.ReadLine();
-                if (Int32.TryParse(option, out int number) && number <= 12)
+                if (Int32.TryParse(option, out int number) && number <= 14)
                 {
                     switch (number)
                     {
@@ -64,6 +64,12 @@ namespace EmailApplication
                             break;
                         case 12:
                             adminPresenter.RemoveUserById();
+                            break;
+                        case 13:
+                            adminPresenter.UserUpdateById();
+                            break;
+                        case 14:
+                            userPresenter.MessageUpdateById();
                             break;
                         
                     }

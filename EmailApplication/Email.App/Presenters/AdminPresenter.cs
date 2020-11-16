@@ -16,7 +16,7 @@ namespace Email.App.Presenters
 
         public void AddUser()
         {
-           // _databaseManager.FIleExist();
+            // _databaseManager.FIleExist();
             Console.WriteLine("Enter user name");
             string name = Console.ReadLine();
             Console.WriteLine("Enter user last name");
@@ -33,9 +33,11 @@ namespace Email.App.Presenters
                 Int32.TryParse(parseId, out int id);
                 DateTime createdDateTime = DateTime.Now;
 
-                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(email) && id != null)
+                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) &&
+                    !string.IsNullOrWhiteSpace(email) && id != null)
                 {
-                    Console.WriteLine($"User added: Name: {name}, Last name:  {lastName}, Email adress: {email}, Id: {id}, Created date: {createdDateTime}");
+                    Console.WriteLine(
+                        $"User added: Name: {name}, Last name:  {lastName}, Email adress: {email}, Id: {id}, Created date: {createdDateTime}");
                     User user = new User()
                     {
                         Name = name,
@@ -76,12 +78,14 @@ namespace Email.App.Presenters
         {
             var userList = _databaseManager.GetAll();
 
-            userList.ForEach(x => Console.WriteLine($"Name: {x.Name} Last name: {x.LastName} Email adress: {x.Email} User id: {x.Id} Creation date: {x.CreatedDateTime}"));
+            userList.ForEach(x =>
+                Console.WriteLine(
+                    $"Name: {x.Name} Last name: {x.LastName} Email adress: {x.Email} User id: {x.Id} Creation date: {x.CreatedDateTime}"));
         }
 
         public void CreateNewUserFile()
         {
-          //  _databaseManager.FIleExist();
+            _databaseManager.FileExist();
         }
 
         public void GetUserById()
@@ -97,7 +101,9 @@ namespace Email.App.Presenters
                 };
                 var userListById = _databaseManager.GetById(user);
 
-                userListById.ForEach(x => Console.WriteLine($"Name: {x.Name}, Last name: {x.LastName}, Email adress: {x.Email}, Id: {x.Id}, Creation date: {x.CreatedDateTime}"));
+                userListById.ForEach(x =>
+                    Console.WriteLine(
+                        $"Name: {x.Name}, Last name: {x.LastName}, Email adress: {x.Email}, Id: {x.Id}, Creation date: {x.CreatedDateTime}"));
             }
             else
             {
@@ -111,7 +117,6 @@ namespace Email.App.Presenters
             string parseId = Console.ReadLine();
             if (Int32.TryParse(parseId, out var id))
             {
-                
                 _databaseManager.Delete(id);
                 Console.WriteLine("User deleted successfully");
             }
@@ -120,5 +125,52 @@ namespace Email.App.Presenters
                 Console.WriteLine("An incorrect value has been entered");
             }
         }
+
+        public void UserUpdateById()
+        {
+            Console.WriteLine("Enter the id of the user you want to update");
+            string parseId = Console.ReadLine();
+
+            if (Int32.TryParse(parseId, out var id))
+            {
+                Console.WriteLine("Enter user name");
+                string name = Console.ReadLine();
+                Console.WriteLine("Enter user last name");
+                string lastName = Console.ReadLine();
+                Console.WriteLine("Enter user email adress");
+                string email = Console.ReadLine();
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                Match match = regex.Match(email);
+                if (match.Success)
+                {
+                    DateTime updatedDateTime = DateTime.Now;
+
+                    if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(lastName) &&
+                        !string.IsNullOrWhiteSpace(email) && id != null)
+                    {
+                        Console.WriteLine(
+                            $"User updated: Name: {name}, Last name:  {lastName}, Email adress: {email}, Id: {id}, Update date: {updatedDateTime}");
+                        User user = new User()
+                        {
+                            Name = name,
+                            LastName = lastName,
+                            Email = email,
+                            Id = id,
+                            UpdatedDateTime = updatedDateTime
+                        };
+                        _databaseManager.Update(user);
+                    }
+                    else
+                    {
+                        Console.WriteLine("An incorrect value has been entered");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Incorrect {id}");
+            }
+        }
+
     }
 }

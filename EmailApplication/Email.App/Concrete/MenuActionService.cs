@@ -44,6 +44,8 @@ namespace Email.App.Concrete
             AddItem(new MenuAction(10, "Add file Messages.json", "Main"));
             AddItem(new MenuAction(11, "Get user by id", "Main"));
             AddItem(new MenuAction(12, "Remove user by id", "Main"));
+            AddItem(new MenuAction(13, "Update user by id", "Main"));
+            AddItem(new MenuAction(14, "Update message by id", "Main"));
 
         }
     }

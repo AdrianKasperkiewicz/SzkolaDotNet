@@ -12,13 +12,14 @@ namespace Email.Domain.Entity
         public User()
         {
         }
-        public User(string name, string lastName, string email, int id, DateTime createdDateTime)
+        public User(string name, string lastName, string email, int id, DateTime createdDateTime, DateTime updatedDateTime)
         {
             Name = name;
             LastName = lastName;
             Email = email;
             Id = id;
             CreatedDateTime = createdDateTime;
+            UpdatedDateTime = updatedDateTime;
         }
     }
 }
